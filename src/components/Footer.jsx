@@ -20,9 +20,18 @@ export default function Footer() {
 
   const year = new Date().getFullYear();
 
+  const EMAIL_TO = "codexity2026@gmail.com";
+  const EMAIL_SUBJECT = "Contato - Codexity";
+  const EMAIL_BODY = "Olá, gostaria de falar com a Codexity.";
+
+  const mailtoHref =
+    `mailto:${EMAIL_TO}` +
+    `?subject=${encodeURIComponent(EMAIL_SUBJECT)}` +
+    `&body=${encodeURIComponent(EMAIL_BODY)}`;
+
   const socials = [
     {
-      href: "https://mail.google.com/mail/?view=cm&fs=1&to=codexity2026@gmail.com",
+      href: mailtoHref,
       label: "Email",
       icon: <EmailIcon fontSize="small" />,
     },
@@ -33,23 +42,21 @@ export default function Footer() {
     },
   ];
 
- 
   const footerBg = isDark
     ? "linear-gradient(180deg, rgba(30,34,48,0.55) 0%, rgba(18,19,26,0.72) 100%)"
     : `linear-gradient(180deg,
         ${alpha(theme.palette.background.paper, 0.92)} 0%,
         ${alpha(theme.palette.background.default, 0.98)} 100%)`;
 
-
   const glowGridBg = isDark
     ? [
         `radial-gradient(circle at 15% 30%, ${alpha(
           theme.palette.primary.main,
-          0.14
+          0.14,
         )}, transparent 55%)`,
         `radial-gradient(circle at 85% 55%, ${alpha(
           theme.palette.secondary.main,
-          0.14
+          0.14,
         )}, transparent 55%)`,
         `linear-gradient(${alpha("#ffffff", 0.04)} 1px, transparent 1px)`,
         `linear-gradient(90deg, ${alpha("#ffffff", 0.04)} 1px, transparent 1px)`,
@@ -57,11 +64,11 @@ export default function Footer() {
     : [
         `radial-gradient(circle at 15% 30%, ${alpha(
           theme.palette.primary.main,
-          0.10
+          0.1,
         )}, transparent 60%)`,
         `radial-gradient(circle at 85% 55%, ${alpha(
           theme.palette.secondary.main,
-          0.10
+          0.1,
         )}, transparent 60%)`,
         `linear-gradient(${alpha(theme.palette.text.primary, 0.05)} 1px, transparent 1px)`,
         `linear-gradient(90deg, ${alpha(theme.palette.text.primary, 0.05)} 1px, transparent 1px)`,
@@ -117,7 +124,7 @@ export default function Footer() {
                     ? "linear-gradient(180deg, rgba(18,19,26,0.35), rgba(18,19,26,0.12))"
                     : `linear-gradient(180deg, ${alpha(
                         theme.palette.background.paper,
-                        0.85
+                        0.85,
                       )}, ${alpha(theme.palette.background.default, 0.95)})`,
                   boxShadow: isDark
                     ? "0 18px 40px rgba(0,0,0,0.25)"
@@ -246,14 +253,11 @@ function FooterLink({ href, label }) {
 function SocialIcon({ href, icon, label }) {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
-  const isExternal = href.startsWith("http");
 
   return (
     <IconButton
       component="a"
       href={href}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noreferrer" : undefined}
       aria-label={label}
       sx={{
         width: 40,
@@ -278,26 +282,15 @@ function SocialIcon({ href, icon, label }) {
 
         "&:hover": {
           transform: "translateY(-1px)",
-          borderColor: theme.palette.divider,
           boxShadow: isDark
             ? `0 14px 30px rgba(0,0,0,0.28), 0 0 0 3px ${alpha(
                 theme.palette.primary.main,
-                0.10
+                0.1
               )}`
             : `0 12px 26px rgba(0,0,0,0.12), 0 0 0 3px ${alpha(
                 theme.palette.primary.main,
                 0.12
               )}`,
-        },
-
-        "&:active": {
-          transform: "translateY(0px)",
-        },
-
-        "&:focus-visible": {
-          outline: "none",
-          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.18)}`,
-          borderColor: theme.palette.divider,
         },
       }}
     >
@@ -305,3 +298,4 @@ function SocialIcon({ href, icon, label }) {
     </IconButton>
   );
 }
+

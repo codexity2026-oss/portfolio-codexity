@@ -31,10 +31,9 @@ export default function Hero() {
   const EMAIL_SUBJECT = "Contato - Codexity";
   const EMAIL_BODY = "Olá, gostaria de falar com a Codexity.";
 
-  const gmailHref =
-    `https://mail.google.com/mail/?view=cm&fs=1` +
-    `&to=${encodeURIComponent(EMAIL_TO)}` +
-    `&su=${encodeURIComponent(EMAIL_SUBJECT)}` +
+  const mailtoHref =
+    `mailto:${EMAIL_TO}` +
+    `?subject=${encodeURIComponent(EMAIL_SUBJECT)}` +
     `&body=${encodeURIComponent(EMAIL_BODY)}`;
 
   return (
@@ -82,8 +81,8 @@ export default function Hero() {
           </Typography>
 
           <Typography sx={{ color: "text.secondary", mb: 4 }}>
-            Somos a Codexity — uma empresa focada em soluções digitais inteligentes,
-            resilientes e escaláveis.
+            Somos a Codexity — uma empresa focada em soluções digitais
+            inteligentes, resilientes e escaláveis.
           </Typography>
 
           <Button variant="contained" onClick={handleOpen}>
@@ -119,10 +118,7 @@ export default function Hero() {
               maxWidth: 520,
               borderRadius: 3,
               backdropFilter: "blur(16px)",
-              backgroundColor: alpha(
-                theme.palette.background.paper,
-                0.65
-              ),
+              backgroundColor: alpha(theme.palette.background.paper, 0.65),
               border: `1px solid ${alpha("#fff", isDark ? 0.08 : 0.25)}`,
               boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
             }}
@@ -157,7 +153,6 @@ export default function Hero() {
                   variant="outlined"
                   startIcon={<InstagramIcon />}
                   href={INSTAGRAM_URL}
-                  target="_blank"
                   onClick={handleClose}
                 >
                   Instagram
@@ -166,11 +161,10 @@ export default function Hero() {
                 <Button
                   variant="outlined"
                   startIcon={<EmailIcon />}
-                  href={gmailHref}
-                  target="_blank"
+                  href={mailtoHref}
                   onClick={handleClose}
                 >
-                  Gmail
+                  E-mail
                 </Button>
               </Stack>
             </Box>
