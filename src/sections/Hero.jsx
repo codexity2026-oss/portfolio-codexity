@@ -1,11 +1,41 @@
 "use client";
 
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Typography,
+  Modal,
+  Paper,
+  IconButton,
+  Divider,
+} from "@mui/material";
 import { useTheme, alpha } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import EmailIcon from "@mui/icons-material/Email";
 
 export default function Hero() {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const INSTAGRAM_URL = "https://instagram.com/codexityofc";
+
+  const EMAIL_TO = "codexity2026@gmail.com";
+  const EMAIL_SUBJECT = "Contato - Codexity";
+  const EMAIL_BODY = "Olá, gostaria de falar com a Codexity.";
+
+  const gmailHref =
+    `https://mail.google.com/mail/?view=cm&fs=1` +
+    `&to=${encodeURIComponent(EMAIL_TO)}` +
+    `&su=${encodeURIComponent(EMAIL_SUBJECT)}` +
+    `&body=${encodeURIComponent(EMAIL_BODY)}`;
 
   return (
     <Box
@@ -20,36 +50,13 @@ export default function Hero() {
           xs: `url(${isDark ? "/hero-mobile-dark.png" : "/hero-mobile-light.png"})`,
           md: `url(${isDark ? "/hero-desktop-dark.png" : "/hero-desktop-light.png"})`,
         },
-
         backgroundSize: "cover",
-        backgroundPosition: { xs: "center", md: "center" },
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          background: isDark
-            ? `radial-gradient(circle at 30% 35%, rgba(0,0,0,0.55), transparent 60%),
-               linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.10) 70%, rgba(0,0,0,0.00) 100%)`
-            : `radial-gradient(circle at 30% 35%, ${alpha("#ffffff", 0.55)}, transparent 60%),
-               linear-gradient(90deg, ${alpha("#ffffff", 0.75)} 0%, ${alpha(
-                "#ffffff",
-                0.35
-              )} 45%, ${alpha("#ffffff", 0.10)} 70%, ${alpha("#ffffff", 0)} 100%)`,
-          pointerEvents: "none",
-        },
       }}
     >
-      <Container
-        maxWidth="lg"
-        sx={{
-          position: "relative",
-          zIndex: 1,
-          pt: { xs: 12, md: 10 },
-          pb: { xs: 10, md: 10 },
-        }}
-      >
-        <Box sx={{ maxWidth: { xs: "100%", md: 640 } }}>
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        <Box sx={{ maxWidth: 640 }}>
           <Typography
             variant="h2"
             sx={{
@@ -57,7 +64,6 @@ export default function Hero() {
               lineHeight: 1.08,
               mb: 2,
               fontSize: { xs: 38, sm: 46, md: 56 },
-              color: "text.primary",
             }}
           >
             Onde código encontra{" "}
@@ -75,26 +81,102 @@ export default function Hero() {
             .
           </Typography>
 
-          <Typography
-            sx={{
-              color: "text.secondary",
-              maxWidth: 520,
-              mb: 4,
-              fontSize: { xs: 15, md: 16 },
-              lineHeight: 1.6,
-            }}
-          >
+          <Typography sx={{ color: "text.secondary", mb: 4 }}>
             Somos a Codexity — uma empresa focada em soluções digitais inteligentes,
             resilientes e escaláveis.
           </Typography>
 
-          <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap" }}>
-            <Button variant="contained" color="primary" href="#projetos">
-              Falar com a Codexity
-            </Button>
-          </Stack>
+          <Button variant="contained" onClick={handleOpen}>
+            Falar com a Codexity
+          </Button>
         </Box>
       </Container>
+
+      {/* MODAL GLASS */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        BackdropProps={{
+          sx: {
+            backdropFilter: "blur(6px)",
+            backgroundColor: alpha("#000", 0.4),
+          },
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
+            display: "grid",
+            placeItems: "center",
+            p: 2,
+          }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              width: "100%",
+              maxWidth: 520,
+              borderRadius: 3,
+              backdropFilter: "blur(16px)",
+              backgroundColor: alpha(
+                theme.palette.background.paper,
+                0.65
+              ),
+              border: `1px solid ${alpha("#fff", isDark ? 0.08 : 0.25)}`,
+              boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                px: 2,
+                py: 1.5,
+              }}
+            >
+              <Typography variant="h6" fontWeight={700}>
+                Falar com a Codexity
+              </Typography>
+
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+
+            <Divider />
+
+            <Box sx={{ p: 2 }}>
+              <Typography sx={{ color: "text.secondary", mb: 2 }}>
+                Escolha um canal:
+              </Typography>
+
+              <Stack spacing={1.5}>
+                <Button
+                  variant="outlined"
+                  startIcon={<InstagramIcon />}
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  onClick={handleClose}
+                >
+                  Instagram
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  startIcon={<EmailIcon />}
+                  href={gmailHref}
+                  target="_blank"
+                  onClick={handleClose}
+                >
+                  Gmail
+                </Button>
+              </Stack>
+            </Box>
+          </Paper>
+        </Box>
+      </Modal>
     </Box>
   );
 }

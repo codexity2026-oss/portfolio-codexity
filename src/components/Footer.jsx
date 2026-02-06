@@ -22,7 +22,7 @@ export default function Footer() {
 
   const socials = [
     {
-      href: "mailto:contato@codexity.com",
+      href: "https://mail.google.com/mail/?view=cm&fs=1&to=codexity2026@gmail.com",
       label: "Email",
       icon: <EmailIcon fontSize="small" />,
     },

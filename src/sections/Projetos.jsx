@@ -20,52 +20,11 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const projects = [
   {
-    title: "Aplicativo FinanceFlow",
-    subtitle: "Dashboard financeiro",
-    image: "/projects/financeflow.jpg",
-    tags: ["Dashboard", "Fintech", "UI"],
-    live: "https://example.com",
-  },
-  {
-    title: "Ecommerce TechTrendX",
-    subtitle: "Loja com checkout e integrações",
-    image: "/projects/techtrendx.jpg",
-    tags: ["E-commerce", "SEO"],
-    live: "https://example.com",
-  },
-  {
-    title: "Portfólio André Carvalho",
-    subtitle: "Site institucional com identidade visual",
-    image: "/projects/portfolio-andre.jpg",
-    tags: ["Branding", "Landing", "Animações"],
-    live: "https://example.com",
-  },
-  {
-    title: "Sistema de Agendamentos",
-    subtitle: "Painel + notificações + clientes",
-    image: "/projects/agendamentos.jpg",
-    tags: ["SaaS", "Admin", "Automação"],
-    live: "https://example.com",
-  },
-  {
-    title: "Plataforma de Cursos",
-    subtitle: "Área do aluno e gestão de conteúdos",
-    image: "/projects/cursos.jpg",
-    tags: ["Edu", "Auth", "Payments"],
-    live: "https://example.com",
-  },
-  {
-    title: "Website Corporativ",
-    subtitle: "Institucional com foco em conversão",
-    image: "/projects/corporativo.jpg",
-    tags: ["Landing", "Copy", "UX"],
-    live: "https://example.com",
-  },
-  {
-    title: "Website Corporativo",
-    subtitle: "Institucional com foco em conversão",
-    image: "/projects/corporativo.jpg",
-    tags: ["Landing", "Copy", "UX"],
+    title: "Prime Up Clicks",
+    subtitle: "Plataforma de compra e venda de fotos",
+    image: "/projetos/primeupclicks.PNG",
+    tags: ["Marketplace", "Fotografia", "Plataforma Web"],
+    status: "em_desenvolvimento", // "concluido"
     live: "https://example.com",
   },
 ];
@@ -78,12 +37,15 @@ export default function Projetos() {
 
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) =>
-      a.title.localeCompare(b.title, "pt-BR", { sensitivity: "base" })
+      a.title.localeCompare(b.title, "pt-BR", { sensitivity: "base" }),
     );
   }, []);
 
   const VISIBLE_COUNT = 6;
-  const visible = showAll ? sortedProjects : sortedProjects.slice(0, VISIBLE_COUNT);
+  const visible = showAll
+    ? sortedProjects
+    : sortedProjects.slice(0, VISIBLE_COUNT);
+
   const hasMore = sortedProjects.length > VISIBLE_COUNT;
 
   return (
@@ -96,7 +58,6 @@ export default function Projetos() {
       }}
     >
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-        {/* CARD PRINCIPAL */}
         <Card
           sx={{
             borderRadius: 4,
@@ -113,7 +74,7 @@ export default function Projetos() {
         >
           <CardContent sx={{ p: { xs: 3, md: 6 } }}>
             <Stack spacing={3}>
-              {/* Header */}
+              {/* HEADER */}
               <Stack spacing={1}>
                 <Typography
                   variant="overline"
@@ -127,7 +88,6 @@ export default function Projetos() {
                     fontWeight: 900,
                     lineHeight: 1.08,
                     fontSize: { xs: 30, sm: 38, md: 44 },
-                    color: "text.primary",
                   }}
                 >
                   Alguns trabalhos com{" "}
@@ -153,12 +113,12 @@ export default function Projetos() {
                     lineHeight: 1.85,
                   }}
                 >
-                  Selecionamos projetos que mostram nosso padrão: interface clara,
-                  performance, atenção aos detalhes e uma estrutura preparada para evoluir.
+                  Projetos selecionados que mostram foco em interface,
+                  performance e estrutura preparada para evoluir.
                 </Typography>
               </Stack>
 
-              <Divider sx={{ borderColor: theme.palette.divider }} />
+              <Divider />
 
               {/* GRID */}
               <Box
@@ -174,25 +134,22 @@ export default function Projetos() {
                 }}
               >
                 {visible.map((p) => (
-                  <Box key={p.title} sx={{ width: "100%" }}>
-                    <ProjectCard project={p} />
-                  </Box>
+                  <ProjectCard key={p.title} project={p} />
                 ))}
               </Box>
 
-              {/* Botão centralizado */}
-              <Stack direction="row" justifyContent="center" sx={{ pt: 2 }}>
-                {hasMore && (
+              {/* BOTÃO */}
+              {hasMore && (
+                <Stack direction="row" justifyContent="center" pt={2}>
                   <Button
                     variant="outlined"
-                    color="primary"
                     onClick={() => setShowAll((v) => !v)}
                     endIcon={showAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                   >
                     {showAll ? "Mostrar menos" : "Ver mais"}
                   </Button>
-                )}
-              </Stack>
+                </Stack>
+              )}
             </Stack>
           </CardContent>
         </Card>
@@ -211,7 +168,22 @@ function ProjectCard({ project }) {
 
   const softSurface = isDark
     ? alpha(theme.palette.background.paper, 0.25)
-    : alpha(theme.palette.background.default, 0.60);
+    : alpha(theme.palette.background.default, 0.6);
+
+  const statusConfig = {
+    concluido: {
+      label: "Concluído",
+      color: theme.palette.success.main,
+      bg: alpha(theme.palette.success.main, 0.12),
+    },
+    em_desenvolvimento: {
+      label: "Em desenvolvimento",
+      color: theme.palette.warning.main,
+      bg: alpha(theme.palette.warning.main, 0.14),
+    },
+  };
+
+  const status = statusConfig[project.status];
 
   return (
     <Card
@@ -224,23 +196,8 @@ function ProjectCard({ project }) {
         boxShadow: isDark
           ? "0 10px 22px rgba(0,0,0,0.22)"
           : "0 10px 22px rgba(2,6,23,0.08)",
-        overflow: "hidden",
         position: "relative",
-
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          background: `linear-gradient(135deg, ${alpha(
-            theme.palette.primary.main,
-            isDark ? 0.10 : 0.08
-          )}, ${alpha(theme.palette.secondary.main, isDark ? 0.10 : 0.08)})`,
-          opacity: 0,
-          transition: "opacity 180ms ease",
-          pointerEvents: "none",
-        },
-
-        "&:hover::before": { opacity: 1 },
+        overflow: "hidden",
       }}
     >
       <CardContent sx={{ p: { xs: 2.6, md: 3 } }}>
@@ -248,13 +205,13 @@ function ProjectCard({ project }) {
           {/* IMAGEM */}
           <Box
             sx={{
+              position: "relative",
               width: "100%",
-              aspectRatio: "16/11",
+              aspectRatio: "1/1",
               borderRadius: 3,
               overflow: "hidden",
               border: `1px solid ${theme.palette.divider}`,
               backgroundColor: softSurface,
-              position: "relative",
             }}
           >
             <Box
@@ -265,20 +222,35 @@ function ProjectCard({ project }) {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                display: "block",
-                filter: isDark
-                  ? "contrast(1.05) saturate(1.05)"
-                  : "contrast(1.02) saturate(1.02)",
               }}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
             />
+
+            {status && (
+              <Chip
+                label={status.label}
+                size="small"
+                sx={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  fontWeight: 800,
+                  fontSize: 11,
+                  borderRadius: 999,
+                  color: status.color,
+                  backgroundColor: status.bg,
+                  border: `1px solid ${alpha(status.color, 0.4)}`,
+                  backdropFilter: "blur(6px)",
+                }}
+              />
+            )}
           </Box>
 
           {/* TEXTO */}
           <Box>
-            <Typography sx={{ fontWeight: 900, fontSize: 18, color: "text.primary" }}>
+            <Typography sx={{ fontWeight: 900, fontSize: 18 }}>
               {project.title}
             </Typography>
             <Typography sx={{ color: "text.secondary", mt: 0.3 }}>
@@ -287,7 +259,13 @@ function ProjectCard({ project }) {
           </Box>
 
           {/* TAGS */}
-          <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
             {(project.tags || []).slice(0, 3).map((t) => (
               <Chip
                 key={t}
@@ -295,41 +273,43 @@ function ProjectCard({ project }) {
                 size="small"
                 sx={{
                   borderRadius: 999,
+                  fontWeight: 700,
                   border: `1px solid ${theme.palette.divider}`,
                   backgroundColor: softSurface,
-                  color: "text.primary",
-                  fontWeight: 700,
                 }}
               />
             ))}
-          </Stack>
+          </Box>
 
           {/* LINK */}
-          <Stack direction="row" spacing={1} sx={{ justifyContent: "center", pt: 0.5 }}>
-            <IconButton
-              component="a"
-              href={project.live}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Abrir demo"
-              sx={{
-                borderRadius: 2,
-                border: `1px solid ${theme.palette.divider}`,
-                backgroundColor: softSurface,
-                transition: "transform 140ms ease, box-shadow 140ms ease",
-                "&:hover": {
-                  transform: "translateY(-1px)",
-                  boxShadow: `0 0 0 3px ${alpha(
-                    theme.palette.primary.main,
-                    isDark ? 0.10 : 0.12
-                  )}`,
-                },
-                "&:active": { transform: "translateY(0px)" },
-              }}
-            >
-              <OpenInNewIcon fontSize="small" />
-            </IconButton>
-          </Stack>
+          {project.status === "concluido" && (
+            <Stack direction="row" justifyContent="center">
+              <IconButton
+                component="a"
+                href={project.live}
+                target="_blank"
+                rel="noreferrer"
+                sx={{
+                  borderRadius: 2,
+                  border: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: softSurface,
+                  transition: "transform 140ms ease, box-shadow 140ms ease",
+                  "&:hover": {
+                    transform: "translateY(-1px)",
+                    boxShadow: `0 0 0 3px ${alpha(
+                      theme.palette.primary.main,
+                      isDark ? 0.1 : 0.12,
+                    )}`,
+                  },
+                  "&:active": {
+                    transform: "translateY(0)",
+                  },
+                }}
+              >
+                <OpenInNewIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          )}
         </Stack>
       </CardContent>
     </Card>

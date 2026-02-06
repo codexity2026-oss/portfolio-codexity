@@ -15,82 +15,37 @@ import {
 import { useTheme, alpha } from "@mui/material/styles";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import EmailIcon from "@mui/icons-material/Email";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const team = [
   {
+    name: "Apollo Borges",
+    role: "Desenvolvedor FullStack",
+    photo: "/equipe/apollo.jpeg",
+    linkedin: "https://www.linkedin.com/in/apollo-borges-9358b939b/",
+    github: "https://github.com/ImPollic",
+  },
+  {
     name: "Henrique Bruno",
-    role: "Programador",
-    photo: "/hero-desktop.png",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:camila@codexity.com",
+    role: "Desenvolvedor FullStack",
+    photo: "/equipe/henrique.jpg",
+    linkedin: "https://www.linkedin.com/in/henrique-costa-4522073a0",
+    github: "https://github.com/rickcsta",
   },
   {
-    name: "Lucas Martins",
-    role: "Programador",
-    photo: "/team/lucas.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:lucas@codexity.com",
+    name: "Hyoran Gabriel",
+    role: "Marketing",
+    photo: "/equipe/hyoran.jpeg",
+    instagram: "https://www.instagram.com/hyoran_bidu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   {
-    name: "Rafael Oliveira",
-    role: "Analista de Sistemas",
-    photo: "/team/rafael.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:rafael@codexity.com",
-  },
-  {
-    name: "Ana Souza",
-    role: "Product Designer",
-    photo: "/team/ana.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:ana@codexity.com",
-  },
-  {
-    name: "Bruno Lima",
-    role: "Desenvolvedor Full-Stack",
-    photo: "/team/bruno.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:bruno@codexity.com",
-  },
-  {
-    name: "Mariana Cos",
-    role: "Front-end Developer",
-    photo: "/team/mariana.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:mariana@codexity.com",
-  },
-  {
-    name: "Mariana Cost",
-    role: "Front-end Developer",
-    photo: "/team/mariana.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:mariana@codexity.com",
-  },
-  {
-    name: "Mariana Coa",
-    role: "Front-end Developer",
-    photo: "/team/mariana.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:mariana@codexity.com",
-  },
-  {
-    name: "Mariana Cosa",
-    role: "Front-end Developer",
-    photo: "/team/mariana.jpg",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:mariana@codexity.com",
+    name: "Yago Jordas",
+    role: "Desenvolvedor FullStack",
+    photo: "/equipe/yago.jpeg",
+    linkedin: "https://www.linkedin.com/in/yago-jordas-do-nascimento-pereira-b641223a3",
+    github: "https://github.com/yago-jnp",
   },
 ];
 
@@ -102,7 +57,7 @@ export default function Equipe() {
 
   const sortedTeam = useMemo(() => {
     return [...team].sort((a, b) =>
-      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
+      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }),
     );
   }, []);
 
@@ -253,8 +208,8 @@ function TeamCard({ member }) {
           inset: 0,
           background: `linear-gradient(135deg, ${alpha(
             theme.palette.primary.main,
-            isDark ? 0.10 : 0.08
-          )}, ${alpha(theme.palette.secondary.main, isDark ? 0.10 : 0.08)})`,
+            isDark ? 0.1 : 0.08,
+          )}, ${alpha(theme.palette.secondary.main, isDark ? 0.1 : 0.08)})`,
           opacity: 0,
           transition: "opacity 180ms ease",
           pointerEvents: "none",
@@ -275,7 +230,7 @@ function TeamCard({ member }) {
               border: `1px solid ${theme.palette.divider}`,
               backgroundColor: isDark
                 ? alpha(theme.palette.background.paper, 0.35)
-                : alpha(theme.palette.background.default, 0.60),
+                : alpha(theme.palette.background.default, 0.6),
               position: "relative",
             }}
           >
@@ -288,7 +243,9 @@ function TeamCard({ member }) {
                 height: "100%",
                 objectFit: "cover",
                 display: "block",
-                filter: isDark ? "contrast(1.05) saturate(1.05)" : "contrast(1.02) saturate(1.02)",
+                filter: isDark
+                  ? "contrast(1.05) saturate(1.05)"
+                  : "contrast(1.02) saturate(1.02)",
               }}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
@@ -298,7 +255,9 @@ function TeamCard({ member }) {
 
           {/* NOME + ROLE */}
           <Box>
-            <Typography sx={{ fontWeight: 900, fontSize: 18, color: "text.primary" }}>
+            <Typography
+              sx={{ fontWeight: 900, fontSize: 18, color: "text.primary" }}
+            >
               {member.name}
             </Typography>
             <Typography sx={{ color: "text.secondary", mt: 0.3 }}>
@@ -307,18 +266,28 @@ function TeamCard({ member }) {
           </Box>
 
           {/* CONTATOS */}
-          <Stack direction="row" spacing={1} sx={{ justifyContent: "center", pt: 0.5 }}>
-            <SocialBtn href={member.linkedin} label="LinkedIn">
-              <LinkedInIcon fontSize="small" />
-            </SocialBtn>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ justifyContent: "center", pt: 0.5 }}
+          >
+            {member.linkedin && (
+              <SocialBtn href={member.linkedin} label="LinkedIn">
+                <LinkedInIcon fontSize="small" />
+              </SocialBtn>
+            )}
 
-            <SocialBtn href={member.github} label="GitHub">
-              <GitHubIcon fontSize="small" />
-            </SocialBtn>
+            {member.github && (
+              <SocialBtn href={member.github} label="GitHub">
+                <GitHubIcon fontSize="small" />
+              </SocialBtn>
+            )}
 
-            <SocialBtn href={member.email} label="Email" external={false}>
-              <EmailIcon fontSize="small" />
-            </SocialBtn>
+            {member.instagram && (
+              <SocialBtn href={member.instagram} label="Instagram">
+                <InstagramIcon fontSize="small" />
+              </SocialBtn>
+            )}
           </Stack>
         </Stack>
       </CardContent>
@@ -342,11 +311,11 @@ function SocialBtn({ href, label, external = true, children }) {
         border: `1px solid ${theme.palette.divider}`,
         backgroundColor: isDark
           ? alpha(theme.palette.background.paper, 0.25)
-          : alpha(theme.palette.background.default, 0.60),
+          : alpha(theme.palette.background.default, 0.6),
         transition: "transform 140ms ease, box-shadow 140ms ease",
         "&:hover": {
           transform: "translateY(-1px)",
-          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, isDark ? 0.10 : 0.12)}`,
+          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, isDark ? 0.1 : 0.12)}`,
         },
         "&:active": { transform: "translateY(0px)" },
       }}
