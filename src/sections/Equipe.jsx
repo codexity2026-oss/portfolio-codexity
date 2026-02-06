@@ -38,7 +38,7 @@ const team = [
     name: "Hyoran Gabriel",
     role: "Marketing",
     photo: "/equipe/hyoran.jpeg",
-    instagram: "https://www.instagram.com/hyoran_bidu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    instagram: "https://www.instagram.com/hyoran_bidu/",
   },
   {
     name: "Yago Jordas",

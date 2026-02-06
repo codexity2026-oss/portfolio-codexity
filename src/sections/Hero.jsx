@@ -25,7 +25,7 @@ export default function Hero() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const INSTAGRAM_URL = "https://instagram.com/codexityofc";
+  const INSTAGRAM_URL = "https://instagram.com/codexityofc/";
 
   const EMAIL_TO = "codexity2026@gmail.com";
   const EMAIL_SUBJECT = "Contato - Codexity";

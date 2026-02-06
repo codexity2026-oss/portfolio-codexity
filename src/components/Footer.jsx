@@ -36,7 +36,7 @@ export default function Footer() {
       icon: <EmailIcon fontSize="small" />,
     },
     {
-      href: "https://instagram.com/codexityofc",
+      href: "https://instagram.com/codexityofc/",
       label: "Instagram",
       icon: <InstagramIcon fontSize="small" />,
     },
