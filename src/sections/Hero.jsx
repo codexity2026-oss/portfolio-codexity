@@ -1,6 +1,12 @@
+"use client";
+
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { useTheme, alpha } from "@mui/material/styles";
 
 export default function Hero() {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Box
       id="hero"
@@ -11,22 +17,25 @@ export default function Hero() {
         position: "relative",
         overflow: "hidden",
         backgroundImage: {
-          xs: "url(/hero-mobile.png)",
-          md: "url(/hero-desktop.png)",
+          xs: `url(${isDark ? "/hero-mobile-dark.png" : "/hero-mobile-light.png"})`,
+          md: `url(${isDark ? "/hero-desktop-dark.png" : "/hero-desktop-light.png"})`,
         },
+
         backgroundSize: "cover",
-        backgroundPosition: {
-          xs: "center",
-          md: "center",
-        },
+        backgroundPosition: { xs: "center", md: "center" },
         backgroundRepeat: "no-repeat",
         "&::before": {
           content: '""',
           position: "absolute",
           inset: 0,
-          background:
-            "radial-gradient(circle at 30% 35%, rgba(0,0,0,0.55), transparent 60%)," +
-            "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.10) 70%, rgba(0,0,0,0.00) 100%)",
+          background: isDark
+            ? `radial-gradient(circle at 30% 35%, rgba(0,0,0,0.55), transparent 60%),
+               linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.10) 70%, rgba(0,0,0,0.00) 100%)`
+            : `radial-gradient(circle at 30% 35%, ${alpha("#ffffff", 0.55)}, transparent 60%),
+               linear-gradient(90deg, ${alpha("#ffffff", 0.75)} 0%, ${alpha(
+                "#ffffff",
+                0.35
+              )} 45%, ${alpha("#ffffff", 0.10)} 70%, ${alpha("#ffffff", 0)} 100%)`,
           pointerEvents: "none",
         },
       }}
@@ -36,16 +45,11 @@ export default function Hero() {
         sx={{
           position: "relative",
           zIndex: 1,
-          pt: { xs: 12, md: 10 }, 
+          pt: { xs: 12, md: 10 },
           pb: { xs: 10, md: 10 },
         }}
       >
-        {/* bloco do texto igual a 3ª imagem (lado esquerdo) */}
-        <Box
-          sx={{
-            maxWidth: { xs: "100%", md: 640 },
-          }}
-        >
+        <Box sx={{ maxWidth: { xs: "100%", md: 640 } }}>
           <Typography
             variant="h2"
             sx={{
@@ -53,14 +57,14 @@ export default function Hero() {
               lineHeight: 1.08,
               mb: 2,
               fontSize: { xs: 38, sm: 46, md: 56 },
+              color: "text.primary",
             }}
           >
             Onde código encontra{" "}
             <Box
               component="span"
               sx={{
-                backgroundImage:
-                  "linear-gradient(90deg, rgba(79,209,255,1), rgba(155,107,255,1))",
+                backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 color: "transparent",

@@ -1,23 +1,23 @@
 "use client";
 
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Container,
-  Grid,
   IconButton,
   Stack,
   Typography,
   Divider,
 } from "@mui/material";
+import { useTheme, alpha } from "@mui/material/styles";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { useMemo, useState } from "react";
 
 const team = [
   {
@@ -95,7 +95,11 @@ const team = [
 ];
 
 export default function Equipe() {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [showAll, setShowAll] = useState(false);
+
   const sortedTeam = useMemo(() => {
     return [...team].sort((a, b) =>
       a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
@@ -115,15 +119,19 @@ export default function Equipe() {
         overflow: "hidden",
       }}
     >
-
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        {/* CARD PRINCIPAL (wrapper) */}
         <Card
           sx={{
             borderRadius: 4,
-            backgroundColor: "rgba(30,34,48,0.55)",
-            border: "1px solid rgba(255,255,255,0.10)",
-            backdropFilter: "blur(14px)",
-            boxShadow: "0 18px 55px rgba(0,0,0,0.45)",
+            border: `1px solid ${theme.palette.divider}`,
+            backgroundColor: isDark
+              ? alpha(theme.palette.background.paper, 0.55)
+              : theme.palette.background.paper,
+            backdropFilter: isDark ? "blur(14px)" : "none",
+            boxShadow: isDark
+              ? "0 18px 55px rgba(0,0,0,0.45)"
+              : "0 18px 55px rgba(2,6,23,0.10)",
             overflow: "hidden",
           }}
         >
@@ -142,14 +150,14 @@ export default function Equipe() {
                     fontWeight: 900,
                     lineHeight: 1.08,
                     fontSize: { xs: 30, sm: 38, md: 44 },
+                    color: "text.primary",
                   }}
                 >
                   Pessoas que entregam com{" "}
                   <Box
                     component="span"
                     sx={{
-                      backgroundImage:
-                        "linear-gradient(90deg, rgba(79,209,255,1), rgba(155,107,255,1))",
+                      backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
                       color: "transparent",
@@ -174,42 +182,41 @@ export default function Equipe() {
                 </Typography>
               </Stack>
 
-              <Divider sx={{ borderColor: "rgba(255,255,255,0.10)" }} />
-                <Box
-                    sx={{
-                        display: "grid",
-                        justifyContent: "center", 
-                        gap: { xs: 2.5, sm: 3, md: 4 },
-                        gridTemplateColumns: {
-                        xs: "minmax(0, 420px)",
-                        sm: "repeat(2, minmax(0, 360px))",
-                        md: "repeat(3, minmax(0, 320px))",
-                        },
-                    }}
-                    >
-                    {visible.map((m) => (
-                        <Box key={m.name} sx={{ width: "100%" }}>
-                        <TeamCard member={m} />
-                        </Box>
-                    ))}
-                    </Box>
+              <Divider sx={{ borderColor: theme.palette.divider }} />
 
-              <Stack
-                direction="row"
-                justifyContent="center"
-                sx={{ pt: 2 }}
-                >
+              {/* GRID */}
+              <Box
+                sx={{
+                  display: "grid",
+                  justifyContent: "center",
+                  gap: { xs: 2.5, sm: 3, md: 4 },
+                  gridTemplateColumns: {
+                    xs: "minmax(0, 420px)",
+                    sm: "repeat(2, minmax(0, 360px))",
+                    md: "repeat(3, minmax(0, 320px))",
+                  },
+                }}
+              >
+                {visible.map((m) => (
+                  <Box key={m.name} sx={{ width: "100%" }}>
+                    <TeamCard member={m} />
+                  </Box>
+                ))}
+              </Box>
+
+              {/* VER MAIS */}
+              <Stack direction="row" justifyContent="center" sx={{ pt: 2 }}>
                 {hasMore && (
-                    <Button
+                  <Button
                     variant="outlined"
                     color="primary"
                     onClick={() => setShowAll((v) => !v)}
                     endIcon={showAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    >
+                  >
                     {showAll ? "Mostrar menos" : "Ver mais"}
-                    </Button>
+                  </Button>
                 )}
-                </Stack>
+              </Stack>
             </Stack>
           </CardContent>
         </Card>
@@ -219,15 +226,24 @@ export default function Equipe() {
 }
 
 function TeamCard({ member }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const cardBg = isDark
+    ? alpha(theme.palette.background.default, 0.35)
+    : theme.palette.background.paper;
+
   return (
     <Card
       sx={{
         height: "100%",
         borderRadius: 4,
-        backgroundColor: "rgba(18,19,26,0.35)",
-        border: "1px solid rgba(255,255,255,0.10)",
-        backdropFilter: "blur(10px)",
-        boxShadow: "0 1px 1px rgba(0,0,0,0.22)",
+        border: `1px solid ${theme.palette.divider}`,
+        backgroundColor: cardBg,
+        backdropFilter: isDark ? "blur(10px)" : "none",
+        boxShadow: isDark
+          ? "0 10px 22px rgba(0,0,0,0.22)"
+          : "0 10px 22px rgba(2,6,23,0.08)",
         overflow: "hidden",
         position: "relative",
 
@@ -235,8 +251,10 @@ function TeamCard({ member }) {
           content: '""',
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(135deg, rgba(79,209,255,0.10), rgba(155,107,255,0.10))",
+          background: `linear-gradient(135deg, ${alpha(
+            theme.palette.primary.main,
+            isDark ? 0.10 : 0.08
+          )}, ${alpha(theme.palette.secondary.main, isDark ? 0.10 : 0.08)})`,
           opacity: 0,
           transition: "opacity 180ms ease",
           pointerEvents: "none",
@@ -254,8 +272,10 @@ function TeamCard({ member }) {
               aspectRatio: "1/1",
               borderRadius: 3,
               overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.10)",
-              backgroundColor: "rgba(30,34,48,0.35)",
+              border: `1px solid ${theme.palette.divider}`,
+              backgroundColor: isDark
+                ? alpha(theme.palette.background.paper, 0.35)
+                : alpha(theme.palette.background.default, 0.60),
               position: "relative",
             }}
           >
@@ -268,7 +288,7 @@ function TeamCard({ member }) {
                 height: "100%",
                 objectFit: "cover",
                 display: "block",
-                filter: "contrast(1.05) saturate(1.05)",
+                filter: isDark ? "contrast(1.05) saturate(1.05)" : "contrast(1.02) saturate(1.02)",
               }}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
@@ -278,7 +298,7 @@ function TeamCard({ member }) {
 
           {/* NOME + ROLE */}
           <Box>
-            <Typography sx={{ fontWeight: 900, fontSize: 18 }}>
+            <Typography sx={{ fontWeight: 900, fontSize: 18, color: "text.primary" }}>
               {member.name}
             </Typography>
             <Typography sx={{ color: "text.secondary", mt: 0.3 }}>
@@ -287,61 +307,51 @@ function TeamCard({ member }) {
           </Box>
 
           {/* CONTATOS */}
-         {/* CONTATOS */}
-            <Stack
-            direction="row"
-            spacing={1}
-            sx={{
-                justifyContent: "center", 
-                pt: 0.5,
-            }}
-            >
-            <IconButton
-                component="a"
-                href={member.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                sx={{
-                borderRadius: 2,
-                border: "1px solid rgba(255,255,255,0.10)",
-                backgroundColor: "rgba(30,34,48,0.35)",
-                }}
-                aria-label="LinkedIn"
-            >
-                <LinkedInIcon fontSize="small" />
-            </IconButton>
+          <Stack direction="row" spacing={1} sx={{ justifyContent: "center", pt: 0.5 }}>
+            <SocialBtn href={member.linkedin} label="LinkedIn">
+              <LinkedInIcon fontSize="small" />
+            </SocialBtn>
 
-            <IconButton
-                component="a"
-                href={member.github}
-                target="_blank"
-                rel="noreferrer"
-                sx={{
-                borderRadius: 2,
-                border: "1px solid rgba(255,255,255,0.10)",
-                backgroundColor: "rgba(30,34,48,0.35)",
-                }}
-                aria-label="GitHub"
-            >
-                <GitHubIcon fontSize="small" />
-            </IconButton>
+            <SocialBtn href={member.github} label="GitHub">
+              <GitHubIcon fontSize="small" />
+            </SocialBtn>
 
-            <IconButton
-                component="a"
-                href={member.email}
-                sx={{
-                borderRadius: 2,
-                border: "1px solid rgba(255,255,255,0.10)",
-                backgroundColor: "rgba(30,34,48,0.35)",
-                }}
-                aria-label="Email"
-            >
-                <EmailIcon fontSize="small" />
-            </IconButton>
-            </Stack>
-
+            <SocialBtn href={member.email} label="Email" external={false}>
+              <EmailIcon fontSize="small" />
+            </SocialBtn>
+          </Stack>
         </Stack>
       </CardContent>
     </Card>
+  );
+}
+
+function SocialBtn({ href, label, external = true, children }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  return (
+    <IconButton
+      component="a"
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      aria-label={label}
+      sx={{
+        borderRadius: 2,
+        border: `1px solid ${theme.palette.divider}`,
+        backgroundColor: isDark
+          ? alpha(theme.palette.background.paper, 0.25)
+          : alpha(theme.palette.background.default, 0.60),
+        transition: "transform 140ms ease, box-shadow 140ms ease",
+        "&:hover": {
+          transform: "translateY(-1px)",
+          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, isDark ? 0.10 : 0.12)}`,
+        },
+        "&:active": { transform: "translateY(0px)" },
+      }}
+    >
+      {children}
+    </IconButton>
   );
 }

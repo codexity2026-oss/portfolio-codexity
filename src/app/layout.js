@@ -1,17 +1,10 @@
-"use client";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import theme from "@/theme";
-
+import ThemeProviderCodexity from "@/theme/ThemeProviderCodexity";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-br">
       <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
+        <ThemeProviderCodexity>{children}</ThemeProviderCodexity>
       </body>
     </html>
   );

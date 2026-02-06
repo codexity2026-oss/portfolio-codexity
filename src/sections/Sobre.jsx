@@ -1,19 +1,16 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
+"use client";
+
+import { Box, Card, CardContent, Container, Divider, Stack, Typography } from "@mui/material";
+import { useTheme, alpha } from "@mui/material/styles";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SpeedIcon from "@mui/icons-material/Speed";
 import SecurityIcon from "@mui/icons-material/Security";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 export default function Sobre() {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Box
       id="sobre"
@@ -23,15 +20,23 @@ export default function Sobre() {
         overflow: "hidden",
       }}
     >
-      
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         <Card
           sx={{
             borderRadius: 4,
-            backgroundColor: "rgba(30,34,48,0.55)",
-            border: "1px solid rgba(255,255,255,0.10)",
-            backdropFilter: "blur(14px)",
-            boxShadow: "0 18px 55px rgba(0,0,0,0.45)",
+            border: `1px solid ${theme.palette.divider}`,
+
+            
+            backgroundColor: isDark
+              ? alpha(theme.palette.background.paper, 0.55)
+              : theme.palette.background.paper,
+
+            backdropFilter: isDark ? "blur(14px)" : "none",
+
+            boxShadow: isDark
+              ? "0 18px 55px rgba(0,0,0,0.45)"
+              : "0 18px 55px rgba(2,6,23,0.10)",
+
             overflow: "hidden",
           }}
         >
@@ -50,14 +55,15 @@ export default function Sobre() {
                     fontWeight: 900,
                     lineHeight: 1.08,
                     fontSize: { xs: 30, sm: 38, md: 44 },
+                    color: "text.primary",
                   }}
                 >
                   Sobre a{" "}
                   <Box
                     component="span"
                     sx={{
-                      backgroundImage:
-                        "linear-gradient(90deg, rgba(79,209,255,1), rgba(155,107,255,1))",
+                      
+                      backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
                       color: "transparent",
@@ -99,34 +105,18 @@ export default function Sobre() {
                 </Typography>
               </Stack>
 
-              <Divider sx={{ borderColor: "rgba(255,255,255,0.10)" }} />
+              <Divider sx={{ borderColor: theme.palette.divider }} />
 
-              {/* pontos-chave*/}
+              {/* pontos-chave */}
               <Stack
                 direction={{ xs: "column", md: "row" }}
                 spacing={2}
                 sx={{ alignItems: { md: "flex-start" } }}
               >
-                <Feature
-                  icon={<AutoAwesomeIcon />}
-                  title="Inovação"
-                  text="Soluções modernas com foco em UX, clareza e consistência visual."
-                />
-                <Feature
-                  icon={<SpeedIcon />}
-                  title="Performance"
-                  text="Carregamento rápido, código limpo e otimizações reais para produção."
-                />
-                <Feature
-                  icon={<SecurityIcon />}
-                  title="Segurança"
-                  text="Boas práticas, validações e padrões seguros desde o início."
-                />
-                <Feature
-                  icon={<TrendingUpIcon />}
-                  title="Escalabilidade"
-                  text="Arquitetura preparada para crescer com novas features e usuários."
-                />
+                <Feature icon={<AutoAwesomeIcon />} title="Inovação" text="Soluções modernas com foco em UX, clareza e consistência visual." />
+                <Feature icon={<SpeedIcon />} title="Performance" text="Carregamento rápido, código limpo e otimizações reais para produção." />
+                <Feature icon={<SecurityIcon />} title="Segurança" text="Boas práticas, validações e padrões seguros desde o início." />
+                <Feature icon={<TrendingUpIcon />} title="Escalabilidade" text="Arquitetura preparada para crescer com novas features e usuários." />
               </Stack>
             </Stack>
           </CardContent>
@@ -137,6 +127,9 @@ export default function Sobre() {
 }
 
 function Feature({ icon, title, text }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Stack
       spacing={1}
@@ -145,9 +138,18 @@ function Feature({ icon, title, text }) {
         minWidth: { xs: "100%", md: 0 },
         p: 2,
         borderRadius: 3,
-        backgroundColor: "rgba(18,19,26,0.35)",
-        border: "1px solid rgba(255,255,255,0.10)",
-        backdropFilter: "blur(10px)",
+        border: `1px solid ${theme.palette.divider}`,
+
+
+        backgroundColor: isDark
+          ? alpha(theme.palette.background.default, 0.35)
+          : alpha(theme.palette.background.default, 0.35), 
+
+        backdropFilter: isDark ? "blur(10px)" : "none",
+
+        boxShadow: isDark
+          ? "0 10px 22px rgba(0,0,0,0.25)"
+          : "0 10px 20px rgba(2,6,23,0.08)",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -158,16 +160,21 @@ function Feature({ icon, title, text }) {
             borderRadius: 2,
             display: "grid",
             placeItems: "center",
-            backgroundImage:
-              "linear-gradient(90deg, rgba(79,209,255,0.18), rgba(155,107,255,0.18))",
-            border: "1px solid rgba(255,255,255,0.10)",
+
+
+            backgroundImage: `linear-gradient(90deg, ${alpha(
+              theme.palette.primary.main,
+              isDark ? 0.18 : 0.16
+            )}, ${alpha(theme.palette.secondary.main, isDark ? 0.18 : 0.16)})`,
+
+            border: `1px solid ${theme.palette.divider}`,
             color: "text.primary",
           }}
         >
           {icon}
         </Box>
 
-        <Typography sx={{ fontWeight: 800 }}>{title}</Typography>
+        <Typography sx={{ fontWeight: 800, color: "text.primary" }}>{title}</Typography>
       </Box>
 
       <Typography sx={{ color: "text.secondary", fontSize: 14, lineHeight: 1.7 }}>

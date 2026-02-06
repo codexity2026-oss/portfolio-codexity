@@ -1,74 +1,34 @@
 // PALETA DE CORES DO SISTEMA – CODEXITY
 // Alterar aqui reflete em todo o sistema
 
-export const palette = {
+export const darkPalette = {
+  mode: "dark",
 
-  // 🔵 COR PRIMÁRIA
-  // Botões principais, links ativos, CTAs
+  primary: { main: "#4FD1FF", light: "#7DE3FF", dark: "#22B3E6", contrastText: "#fff" },
+  secondary: { main: "#9B6BFF", light: "#B794FF", dark: "#7C4DFF", contrastText: "#fff" },
 
-  primary: {
-    main: "#4FD1FF",        // Ciano principal (assinatura visual)
-    light: "#7DE3FF",       // Hover / destaque
-    dark: "#22B3E6",        // Pressed / foco
-    contrastText: "#ffffff",
-  },
+  success: { main: "#22C55E", contrastText: "#fff" },
+  error: { main: "#EF4444", contrastText: "#fff" },
+  warning: { main: "#F59E0B", contrastText: "#fff" },
+  info: { main: "#38BDF8", contrastText: "#fff" },
 
-  // 🟣 COR SECUNDÁRIA
-  // Gradientes, ações secundárias, efeitos visuais
+  background: { default: "#161821", paper: "#1E2230" },
+  text: { primary: "#F5F6FA", secondary: "#B8BCC9", disabled: "#6B7280" },
+  divider: "rgba(255,255,255,0.08)",
+};
 
-  secondary: {
-    main: "#9B6BFF",        // Roxo Codexity
-    light: "#B794FF",
-    dark: "#7C4DFF",
-    contrastText: "#ffffff",
-  },
+export const lightPalette = {
+  mode: "light",
 
-  // 🟢 SUCESSO
+  primary: { main: "#0891B2", light: "#22D3EE", dark: "#0E7490", contrastText: "#fff" },
+  secondary: { main: "#7C3AED", light: "#A78BFA", dark: "#5B21B6", contrastText: "#fff" },
 
-  success: {
-    main: "#22C55E",
-    contrastText: "#ffffff",
-  },
+  success: { main: "#16A34A", contrastText: "#fff" },
+  error: { main: "#DC2626", contrastText: "#fff" },
+  warning: { main: "#D97706", contrastText: "#fff" },
+  info: { main: "#0284C7", contrastText: "#fff" },
 
-  // 🔴 ERRO
-
-  error: {
-    main: "#EF4444",
-    contrastText: "#FFFFFF",
-  },
-
-  // 🟠 AVISO
-
-  warning: {
-    main: "#F59E0B",
-    contrastText: "#ffffff",
-  },
-
-  // 🔵 INFO
-
-  info: {
-    main: "#38BDF8",
-    contrastText: "#ffffff",
-  },
-
-  // 🌑 FUNDOS (DARK FIRST)
-
-  background: {
-  default: "#161821",  // base cinza-azulado (fundo geral)
-  paper:   "#1E2230",  // cards/seções um pouco mais claras
-},
-
-
-
-  // 🧾 TEXTOS
-
-  text: {
-    primary: "#F5F6FA",     // Títulos
-    secondary: "#B8BCC9",   // Parágrafos
-    disabled: "#6B7280",    // Estados inativos
-  },
-
-  // ─── DIVISORES / BORDAS
-
-  divider: "rgba(255, 255, 255, 0.08)",
+  background: { default: "#F6F7FB", paper: "#FFFFFF" },
+  text: { primary: "#111827", secondary: "#4B5563", disabled: "#9CA3AF" },
+  divider: "rgba(17,24,39,0.10)",
 };

@@ -1,13 +1,12 @@
-// ESTILO / CSS GLOBAL DOS COMPONENTES (MUI)
-// CORES → palette.js
-// FONTES → typography.js
+// src/theme/components.js
+import { alpha } from "@mui/material/styles";
 
 export const components = {
   // ───────────────── BOTÕES ─────────────────
   MuiButton: {
     defaultProps: {
       disableElevation: true,
-      size: "medium",
+      size: "large",
 
       onMouseMove: (e) => {
         const el = e.currentTarget;
@@ -25,100 +24,136 @@ export const components = {
     },
 
     styleOverrides: {
-      root: ({ theme }) => ({
-        borderRadius: 20,
-        padding: "10px 18px",
-        fontWeight: theme.typography.button.fontWeight,
-        letterSpacing: theme.typography.button.letterSpacing,
-        textTransform: "none",
-        transition: "all 180ms ease",
-        position: "relative",
-        overflow: "hidden",
+      root: ({ theme }) => {
+        const isDark = theme.palette.mode === "dark";
 
-        "&:hover": {
-          transform: "translateY(-1px)",
-        },
+        return {
+          borderRadius: 20,
+          padding: "10px 18px",
+          fontWeight: theme.typography.button.fontWeight,
+          letterSpacing: theme.typography.button.letterSpacing,
+          textTransform: "none",
+          transition: "all 180ms ease",
+          position: "relative",
+          overflow: "hidden",
 
-        "&:active": {
-          transform: "translateY(0)",
-        },
+          "&:hover": { transform: "translateY(-1px)" },
+          "&:active": { transform: "translateY(0)" },
 
-        "&:focus-visible": {
-          outline: "none",
-          boxShadow: "0 0 0 3px rgba(79,209,255,0.22)",
-        },
+          "&:focus-visible": {
+            outline: "none",
+            boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, isDark ? 0.22 : 0.18)}`,
+          },
 
-        "&.Mui-disabled": {
-          opacity: 0.5,
-          cursor: "not-allowed",
-        },
-      }),
+          "&.Mui-disabled": {
+            opacity: 0.5,
+            cursor: "not-allowed",
+          },
+        };
+      },
 
       sizeSmall: { padding: "8px 14px" },
       sizeMedium: { padding: "10px 18px" },
       sizeLarge: { padding: "12px 24px" },
 
-      containedPrimary: ({ theme }) => ({
-        color: theme.palette.primary.contrastText,
-        backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-        border: "1px solid rgba(255,255,255,0.10)",
-        boxShadow:
-          "0 10px 24px rgba(79,209,255,0.12), 0 10px 24px rgba(155,107,255,0.10)",
+      containedPrimary: ({ theme }) => {
+        const isDark = theme.palette.mode === "dark";
 
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          opacity: "var(--glow, 0)",
-          transition: "opacity 200ms ease",
-          background: `radial-gradient(
-            180px circle at var(--mx, 50%) var(--my, 50%),
-            rgba(255,255,255,0.35),
-            rgba(255,255,255,0.00) 60%
-          )`,
-          filter: "blur(12px)",
-          mixBlendMode: "screen",
-        },
+        return {
+          color: isDark
+          ? theme.palette.primary.contrastText
+          : theme.palette.text.primary, 
+          backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+          border: `1px solid ${theme.palette.divider}`,
+          boxShadow: isDark
+            ? `0 10px 24px ${alpha(theme.palette.primary.main, 0.12)}, 0 10px 24px ${alpha(
+                theme.palette.secondary.main,
+                0.10
+              )}`
+            : `0 10px 22px rgba(0,0,0,0.10)`,
 
-        "&:hover": {
-          filter: "brightness(1.05)",
-          boxShadow:
-            "0 14px 34px rgba(79,209,255,0.18), 0 14px 34px rgba(155,107,255,0.14)",
-        },
-      }),
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            opacity: "var(--glow, 0)",
+            transition: "opacity 200ms ease",
+            background: `radial-gradient(
+              180px circle at var(--mx, 50%) var(--my, 50%),
+              ${alpha("#ffffff", isDark ? 0.35 : 0.22)},
+              ${alpha("#ffffff", 0)} 60%
+            )`,
+            filter: "blur(12px)",
+            mixBlendMode: isDark ? "screen" : "normal",
+          },
 
-      outlinedPrimary: ({ theme }) => ({
-        color: theme.palette.text.primary,
+          "&:hover": {
+            filter: "brightness(1.05)",
+            boxShadow: isDark
+              ? `0 14px 34px ${alpha(theme.palette.primary.main, 0.18)}, 0 14px 34px ${alpha(
+                  theme.palette.secondary.main,
+                  0.14
+                )}`
+              : `0 14px 30px rgba(0,0,0,0.12)`,
+          },
+        };
+      },
 
-        border: "1px solid rgba(255,255,255,0.55)",
-        backgroundColor: "rgba(18,19,26,0.35)",
-        backdropFilter: "blur(10px)",
+      outlinedPrimary: ({ theme }) => {
+        const isDark = theme.palette.mode === "dark";
 
-        "&:hover": {
-          border: "1px solid transparent",
-          backgroundImage: `
-            linear-gradient(rgba(18,19,26,0.50), rgba(18,19,26,0.50)),
-            linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})
-          `,
-          backgroundOrigin: "border-box",
-          backgroundClip: "padding-box, border-box",
-          boxShadow: "0 0 0 3px rgba(79,209,255,0.10)",
-        },
-      }),
+        return {
+          color: theme.palette.text.primary,
+          border: `1px solid ${theme.palette.divider}`,
+          backgroundColor: isDark
+            ? alpha(theme.palette.background.default, 0.35)
+            : alpha(theme.palette.background.paper, 0.80),
+          backdropFilter: "blur(10px)",
+
+          "&:hover": {
+            border: `1px solid ${theme.palette.divider}`,
+            backgroundImage: isDark
+              ? `
+                linear-gradient(${alpha(theme.palette.background.default, 0.50)}, ${alpha(
+                  theme.palette.background.default,
+                  0.50
+                )}),
+                linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})
+              `
+              : `
+                linear-gradient(${alpha(theme.palette.background.paper, 0.92)}, ${alpha(
+                  theme.palette.background.paper,
+                  0.92
+                )}),
+                linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})
+              `,
+            backgroundOrigin: "border-box",
+            backgroundClip: "padding-box, border-box",
+            boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, isDark ? 0.10 : 0.12)}`,
+          },
+        };
+      },
     },
   },
 
   // ───────────────── CARDS ─────────────────
   MuiCard: {
     styleOverrides: {
-      root: ({ theme }) => ({
-        borderRadius: 18,
-        backgroundColor: "rgba(30,34,48,0.55)",
-        border: "1px solid rgba(255,255,255,0.10)",
-        backdropFilter: "blur(12px)",
-        boxShadow: "0 16px 40px rgba(0,0,0,0.35)",
-      }),
+      root: ({ theme }) => {
+        const isDark = theme.palette.mode === "dark";
+        return {
+          borderRadius: 18,
+          border: `1px solid ${theme.palette.divider}`,
+          backgroundColor: isDark
+            ? alpha(theme.palette.background.paper, 0.55)
+            : alpha(theme.palette.background.paper, 0.92),
+          backdropFilter: "blur(12px)",
+          boxShadow: isDark
+            ? "0 16px 40px rgba(0,0,0,0.35)"
+            : "0 12px 30px rgba(0,0,0,0.10)",
+        };
+      },
     },
   },
 
@@ -144,12 +179,12 @@ export const components = {
       root: ({ theme }) => ({
         borderRadius: 10,
         color: theme.palette.text.secondary,
-        border: "1px solid rgba(255,255,255,0.10)",
+        border: `1px solid ${theme.palette.divider}`,
 
         "&.Mui-selected": {
           color: theme.palette.primary.contrastText,
           backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-          border: "1px solid rgba(255,255,255,0.16)",
+          border: `1px solid ${theme.palette.divider}`,
         },
       }),
     },
@@ -163,12 +198,14 @@ export const components = {
         textDecoration: "none",
         transition: "color 160ms ease",
         color: theme.palette.primary.main,
+
         "&:hover": {
           color: theme.palette.secondary.main,
         },
+
         "&:focus-visible": {
           outline: "none",
-          boxShadow: "0 0 0 3px rgba(79,209,255,0.18)",
+          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.18)}`,
           borderRadius: 6,
         },
       }),

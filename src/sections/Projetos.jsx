@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -12,10 +13,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useTheme, alpha } from "@mui/material/styles";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { useMemo, useState } from "react";
 
 const projects = [
   {
@@ -70,6 +71,9 @@ const projects = [
 ];
 
 export default function Projetos() {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [showAll, setShowAll] = useState(false);
 
   const sortedProjects = useMemo(() => {
@@ -92,13 +96,18 @@ export default function Projetos() {
       }}
     >
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        {/* CARD PRINCIPAL */}
         <Card
           sx={{
             borderRadius: 4,
-            backgroundColor: "rgba(30,34,48,0.55)",
-            border: "1px solid rgba(255,255,255,0.10)",
-            backdropFilter: "blur(14px)",
-            boxShadow: "0 18px 55px rgba(0,0,0,0.45)",
+            border: `1px solid ${theme.palette.divider}`,
+            backgroundColor: isDark
+              ? alpha(theme.palette.background.paper, 0.55)
+              : theme.palette.background.paper,
+            backdropFilter: isDark ? "blur(14px)" : "none",
+            boxShadow: isDark
+              ? "0 18px 55px rgba(0,0,0,0.45)"
+              : "0 18px 55px rgba(2,6,23,0.10)",
             overflow: "hidden",
           }}
         >
@@ -118,14 +127,14 @@ export default function Projetos() {
                     fontWeight: 900,
                     lineHeight: 1.08,
                     fontSize: { xs: 30, sm: 38, md: 44 },
+                    color: "text.primary",
                   }}
                 >
                   Alguns trabalhos com{" "}
                   <Box
                     component="span"
                     sx={{
-                      backgroundImage:
-                        "linear-gradient(90deg, rgba(79,209,255,1), rgba(155,107,255,1))",
+                      backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
                       color: "transparent",
@@ -149,8 +158,9 @@ export default function Projetos() {
                 </Typography>
               </Stack>
 
-              <Divider sx={{ borderColor: "rgba(255,255,255,0.10)" }} />
+              <Divider sx={{ borderColor: theme.palette.divider }} />
 
+              {/* GRID */}
               <Box
                 sx={{
                   display: "grid",
@@ -192,15 +202,28 @@ export default function Projetos() {
 }
 
 function ProjectCard({ project }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const cardBg = isDark
+    ? alpha(theme.palette.background.default, 0.35)
+    : theme.palette.background.paper;
+
+  const softSurface = isDark
+    ? alpha(theme.palette.background.paper, 0.25)
+    : alpha(theme.palette.background.default, 0.60);
+
   return (
     <Card
       sx={{
         height: "100%",
         borderRadius: 4,
-        backgroundColor: "rgba(18,19,26,0.35)",
-        border: "1px solid rgba(255,255,255,0.10)",
-        backdropFilter: "blur(10px)",
-        boxShadow: "0 1px 1px rgba(0,0,0,0.22)", 
+        border: `1px solid ${theme.palette.divider}`,
+        backgroundColor: cardBg,
+        backdropFilter: isDark ? "blur(10px)" : "none",
+        boxShadow: isDark
+          ? "0 10px 22px rgba(0,0,0,0.22)"
+          : "0 10px 22px rgba(2,6,23,0.08)",
         overflow: "hidden",
         position: "relative",
 
@@ -208,8 +231,10 @@ function ProjectCard({ project }) {
           content: '""',
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(135deg, rgba(79,209,255,0.10), rgba(155,107,255,0.10))",
+          background: `linear-gradient(135deg, ${alpha(
+            theme.palette.primary.main,
+            isDark ? 0.10 : 0.08
+          )}, ${alpha(theme.palette.secondary.main, isDark ? 0.10 : 0.08)})`,
           opacity: 0,
           transition: "opacity 180ms ease",
           pointerEvents: "none",
@@ -220,14 +245,15 @@ function ProjectCard({ project }) {
     >
       <CardContent sx={{ p: { xs: 2.6, md: 3 } }}>
         <Stack spacing={1.8}>
+          {/* IMAGEM */}
           <Box
             sx={{
               width: "100%",
               aspectRatio: "16/11",
               borderRadius: 3,
               overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.10)",
-              backgroundColor: "rgba(30,34,48,0.35)",
+              border: `1px solid ${theme.palette.divider}`,
+              backgroundColor: softSurface,
               position: "relative",
             }}
           >
@@ -240,7 +266,9 @@ function ProjectCard({ project }) {
                 height: "100%",
                 objectFit: "cover",
                 display: "block",
-                filter: "contrast(1.05) saturate(1.05)",
+                filter: isDark
+                  ? "contrast(1.05) saturate(1.05)"
+                  : "contrast(1.02) saturate(1.02)",
               }}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
@@ -248,8 +276,9 @@ function ProjectCard({ project }) {
             />
           </Box>
 
+          {/* TEXTO */}
           <Box>
-            <Typography sx={{ fontWeight: 900, fontSize: 18 }}>
+            <Typography sx={{ fontWeight: 900, fontSize: 18, color: "text.primary" }}>
               {project.title}
             </Typography>
             <Typography sx={{ color: "text.secondary", mt: 0.3 }}>
@@ -257,6 +286,7 @@ function ProjectCard({ project }) {
             </Typography>
           </Box>
 
+          {/* TAGS */}
           <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
             {(project.tags || []).slice(0, 3).map((t) => (
               <Chip
@@ -265,8 +295,8 @@ function ProjectCard({ project }) {
                 size="small"
                 sx={{
                   borderRadius: 999,
-                  border: "1px solid rgba(255,255,255,0.10)",
-                  backgroundColor: "rgba(30,34,48,0.35)",
+                  border: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: softSurface,
                   color: "text.primary",
                   fontWeight: 700,
                 }}
@@ -274,22 +304,28 @@ function ProjectCard({ project }) {
             ))}
           </Stack>
 
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ justifyContent: "center", pt: 0.5 }}
-          >
+          {/* LINK */}
+          <Stack direction="row" spacing={1} sx={{ justifyContent: "center", pt: 0.5 }}>
             <IconButton
               component="a"
               href={project.live}
               target="_blank"
               rel="noreferrer"
+              aria-label="Abrir demo"
               sx={{
                 borderRadius: 2,
-                border: "1px solid rgba(255,255,255,0.10)",
-                backgroundColor: "rgba(30,34,48,0.35)",
+                border: `1px solid ${theme.palette.divider}`,
+                backgroundColor: softSurface,
+                transition: "transform 140ms ease, box-shadow 140ms ease",
+                "&:hover": {
+                  transform: "translateY(-1px)",
+                  boxShadow: `0 0 0 3px ${alpha(
+                    theme.palette.primary.main,
+                    isDark ? 0.10 : 0.12
+                  )}`,
+                },
+                "&:active": { transform: "translateY(0px)" },
               }}
-              aria-label="Abrir demo"
             >
               <OpenInNewIcon fontSize="small" />
             </IconButton>
