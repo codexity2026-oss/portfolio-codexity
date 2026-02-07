@@ -47,6 +47,12 @@ const team = [
     linkedin: "https://www.linkedin.com/in/yago-jordas-do-nascimento-pereira-b641223a3",
     github: "https://github.com/yago-jnp",
   },
+  {
+    name: "José Alan",
+    role: "Desenvolvedor FullStack",
+    photo: "/equipe/alan.jpeg",
+    github: "https://github.com/alnbr202",
+  },
 ];
 
 export default function Equipe() {
